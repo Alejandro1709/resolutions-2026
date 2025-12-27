@@ -20,6 +20,10 @@ function App() {
 
   const [resolutions, setResolutions] = useState<Resolution[]>(data)
 
+  const completedResolutions = resolutions.filter((r) => r.completed).length
+
+  const percentage = (completedResolutions / resolutions.length) * 100
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -51,7 +55,7 @@ function App() {
       <main className="flex flex-col gap-6 max-w-4xl mx-auto">
         <List resolutions={resolutions} />
 
-        <ProgressBar progress={55} />
+        {completedResolutions > 0 && <ProgressBar progress={percentage} />}
       </main>
     </div>
   )
