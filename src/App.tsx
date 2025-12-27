@@ -24,13 +24,23 @@ function App() {
 
   const percentage = (completedResolutions / resolutions.length) * 100
 
+  const handleCompleteResolution = (id: Resolution['id']) => {
+    const updatedResolutions = resolutions.map((resolution) =>
+      resolution.id === id
+        ? { ...resolution, completed: !resolution.completed }
+        : resolution
+    )
+
+    setResolutions(updatedResolutions)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     if (input === '' || !category) return
 
     const newResolution: Resolution = {
-      id: '3',
+      id: crypto.randomUUID(),
       title: input,
       category,
       completed: false,
@@ -53,7 +63,10 @@ function App() {
       />
 
       <main className="flex flex-col gap-6 max-w-4xl mx-auto">
-        <List resolutions={resolutions} />
+        <List
+          resolutions={resolutions}
+          onCompleteResolution={handleCompleteResolution}
+        />
 
         {completedResolutions > 0 && <ProgressBar progress={percentage} />}
       </main>
