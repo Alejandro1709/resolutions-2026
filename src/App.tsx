@@ -1,49 +1,36 @@
+import { useState } from 'react'
+import Header from './components/Header'
+
 function App() {
+  const [input, setInput] = useState<string>('')
+  const [category, setCategory] = useState<string>('')
+
+  const handleChangePicker = (value: string = 'other') => {
+    if (category) {
+      setCategory('')
+      return
+    }
+
+    setCategory(value)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (input === '') return
+
+    console.log({ input, category })
+  }
+
   return (
     <div className="min-h-screen bg-white">
-      <header className="flex flex-col space-y-8 max-w-4xl mx-auto px-6 py-8">
-        <h1 className="text-3xl md:text-5xl text-center font-semibold">
-          New Year's Resolutions 2026
-        </h1>
-
-        {/* Form */}
-        <form className="flex flex-col space-y-4 p-4 bg-white border border-slate-100 shadow-md">
-          <input
-            className="bg-white p-2 w-full outline-0"
-            type="text"
-            placeholder="Earn 20k a year"
-          />
-
-          {/* Category Picker */}
-          <div className="flex flex-wrap gap-4">
-            <button
-              className="bg-slate-100 rounded-md p-2 font-medium cursor-pointer hover:bg-slate-200"
-              type="button"
-            >
-              ♥️ Health
-            </button>
-            <button
-              className="bg-slate-100 rounded-md p-2 font-medium cursor-pointer hover:bg-slate-200"
-              type="button"
-            >
-              💰 Finance
-            </button>
-            <button
-              className="bg-slate-100 rounded-md p-2 font-medium cursor-pointer hover:bg-slate-200"
-              type="button"
-            >
-              ✈️ Travel
-            </button>
-          </div>
-
-          <button
-            className="bg-[#FF5656] p-2 text-white font-medium rounded-md cursor-pointer hover:bg-[#F14747]"
-            type="submit"
-          >
-            Add Resolution
-          </button>
-        </form>
-      </header>
+      <Header
+        input={input}
+        category={category}
+        onInputChange={setInput}
+        onPickerChange={handleChangePicker}
+        onSubmit={handleSubmit}
+      />
 
       <main className="flex flex-col gap-6 max-w-4xl mx-auto">
         {/* List */}
