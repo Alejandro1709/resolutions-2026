@@ -34,6 +34,14 @@ function App() {
     setResolutions(updatedResolutions)
   }
 
+  const handleRemoveResolution = (id: Resolution['id']) => {
+    const updatedResolutions = resolutions.filter(
+      (resolution) => resolution.id !== id
+    )
+
+    setResolutions(updatedResolutions)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -66,6 +74,7 @@ function App() {
         <List
           resolutions={resolutions}
           onCompleteResolution={handleCompleteResolution}
+          onRemoveResolution={handleRemoveResolution}
         />
 
         {completedResolutions > 0 && <ProgressBar progress={percentage} />}

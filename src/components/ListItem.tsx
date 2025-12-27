@@ -3,9 +3,14 @@ import { categoryConfig, type Resolution } from '../types/resolution'
 interface Props {
   resolution: Resolution
   onCompleteResolution: (id: Resolution['id']) => void
+  onRemoveResolution: (id: Resolution['id']) => void
 }
 
-function ListItem({ resolution, onCompleteResolution }: Props) {
+function ListItem({
+  resolution,
+  onCompleteResolution,
+  onRemoveResolution,
+}: Props) {
   const category = categoryConfig[resolution.category]
 
   return (
@@ -28,7 +33,12 @@ function ListItem({ resolution, onCompleteResolution }: Props) {
         <p className="text-lg font-medium">{resolution.title}</p>
       </div>
 
-      <button className="ml-auto">Del</button>
+      <button
+        className="ml-auto"
+        onClick={() => onRemoveResolution(resolution.id)}
+      >
+        Del
+      </button>
     </div>
   )
 }
