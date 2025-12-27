@@ -55,8 +55,9 @@ function Header({
         </div>
 
         <button
-          className="bg-[#FF5656] p-2 text-white font-medium rounded-md cursor-pointer hover:bg-[#F14747]"
+          className="bg-[#FF5656] p-2 text-white font-medium rounded-md cursor-pointer hover:bg-[#F14747] disabled:cursor-not-allowed disabled:bg-[#FA6666]"
           type="submit"
+          disabled={!input}
         >
           Add Resolution
         </button>

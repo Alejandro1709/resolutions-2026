@@ -4,21 +4,11 @@ import ProgressBar from './components/ProgressBar'
 import List from './components/List'
 import type { Category, Resolution } from './types/resolution'
 
-const data: Resolution[] = [
-  {
-    id: '1',
-    title: 'Buy a brand new car',
-    category: 'personal',
-    completed: false,
-    createdAt: new Date(),
-  },
-]
-
 function App() {
   const [input, setInput] = useState<string>('')
   const [category, setCategory] = useState<Category>('other')
 
-  const [resolutions, setResolutions] = useState<Resolution[]>(data)
+  const [resolutions, setResolutions] = useState<Resolution[]>([])
 
   const completedResolutions = resolutions.filter((r) => r.completed).length
 
