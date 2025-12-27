@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 import Header from './components/Header'
 import ProgressBar from './components/ProgressBar'
 import List from './components/List'
@@ -22,6 +23,8 @@ function App() {
     )
 
     setResolutions(updatedResolutions)
+
+    toast.success('Resolution Toggled!')
   }
 
   const handleRemoveResolution = (id: Resolution['id']) => {
@@ -30,12 +33,17 @@ function App() {
     )
 
     setResolutions(updatedResolutions)
+
+    toast.success('Resolution Removed!')
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (input === '' || !category) return
+    if (input === '' || !category) {
+      toast.error('Text or Category missing!')
+      return
+    }
 
     const newResolution: Resolution = {
       id: crypto.randomUUID(),
@@ -46,6 +54,8 @@ function App() {
     }
 
     setResolutions([...resolutions, newResolution])
+
+    toast.success('Resolution Added!')
 
     setInput('')
   }
@@ -69,6 +79,7 @@ function App() {
 
         {completedResolutions > 0 && <ProgressBar progress={percentage} />}
       </main>
+      <ToastContainer position="top-right" />
     </div>
   )
 }
