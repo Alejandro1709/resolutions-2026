@@ -1,3 +1,12 @@
+interface Props {
+  title?: string
+  input: string
+  category: string
+  onInputChange: React.Dispatch<React.SetStateAction<string>>
+  onPickerChange: (value: string) => void
+  onSubmit: (e: React.FormEvent) => void
+}
+
 function Header({
   title = "New Year's Resolutions 2026",
   input,
@@ -5,7 +14,7 @@ function Header({
   onInputChange,
   onPickerChange,
   onSubmit,
-}) {
+}: Props) {
   return (
     <header className="flex flex-col space-y-8 max-w-4xl mx-auto px-6 py-8">
       <h1 className="text-3xl md:text-5xl text-center font-semibold">
