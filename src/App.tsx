@@ -16,18 +16,9 @@ const data: Resolution[] = [
 
 function App() {
   const [input, setInput] = useState<string>('')
-  const [category, setCategory] = useState<Category>('personal')
+  const [category, setCategory] = useState<Category>('other')
 
   const [resolutions, setResolutions] = useState<Resolution[]>(data)
-
-  const handleChangePicker = (value: Category) => {
-    if (category) {
-      setCategory('personal')
-      return
-    }
-
-    setCategory(value)
-  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,7 +44,7 @@ function App() {
         input={input}
         category={category}
         onInputChange={setInput}
-        onPickerChange={handleChangePicker}
+        onPickerChange={setCategory}
         onSubmit={handleSubmit}
       />
 

@@ -1,4 +1,4 @@
-import type { Category } from '../types/resolution'
+import { categoryConfig, type Category } from '../types/resolution'
 
 interface Props {
   title?: string
@@ -38,39 +38,20 @@ function Header({
 
         {/* Category Picker */}
         <div className="flex flex-wrap gap-4">
-          <button
-            className={`${
-              category === 'health'
-                ? 'bg-[#FF5656] hover:bg-[#F14747] text-white'
-                : 'bg-slate-100 hover:bg-slate-200 text-black'
-            } rounded-md p-2 font-medium cursor-pointer`}
-            type="button"
-            onClick={() => onPickerChange('health')}
-          >
-            ♥️ Health
-          </button>
-          <button
-            className={`${
-              category === 'finance'
-                ? 'bg-[#FF5656] hover:bg-[#F14747] text-white'
-                : 'bg-slate-100 hover:bg-slate-200 text-black'
-            } rounded-md p-2 font-medium cursor-pointer`}
-            type="button"
-            onClick={() => onPickerChange('financial')}
-          >
-            💰 Finance
-          </button>
-          <button
-            className={`${
-              category === 'travel'
-                ? 'bg-[#FF5656] hover:bg-[#F14747] text-white'
-                : 'bg-slate-100 hover:bg-slate-200 text-black'
-            } rounded-md p-2 font-medium cursor-pointer`}
-            type="button"
-            onClick={() => onPickerChange('personal')}
-          >
-            ✈️ Travel
-          </button>
+          {(Object.keys(categoryConfig) as Category[]).map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => onPickerChange(cat)}
+              className={`px-3 py-1.5 ${
+                category === cat
+                  ? 'bg-[#FF5656] text-white'
+                  : 'bg-slate-100 text-black'
+              } rounded-full text-sm font-medium transition-all duration-200`}
+            >
+              {categoryConfig[cat].emoji} {categoryConfig[cat].label}
+            </button>
+          ))}
         </div>
 
         <button
