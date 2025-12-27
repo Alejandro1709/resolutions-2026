@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import Header from './components/Header'
 import ProgressBar from './components/ProgressBar'
@@ -9,11 +9,18 @@ function App() {
   const [input, setInput] = useState<string>('')
   const [category, setCategory] = useState<Category>('other')
 
-  const [resolutions, setResolutions] = useState<Resolution[]>([])
+  const [resolutions, setResolutions] = useState<Resolution[]>(() => {
+    const stored = localStorage.getItem('resolutions')
+    return stored ? JSON.parse(stored) : []
+  })
 
   const completedResolutions = resolutions.filter((r) => r.completed).length
 
   const percentage = (completedResolutions / resolutions.length) * 100
+
+  useEffect(() => {
+    localStorage.setItem('resolutions', JSON.stringify(resolutions))
+  }, [resolutions])
 
   const handleCompleteResolution = (id: Resolution['id']) => {
     const updatedResolutions = resolutions.map((resolution) =>
