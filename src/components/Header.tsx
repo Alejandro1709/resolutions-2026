@@ -1,9 +1,11 @@
+import type { Category } from '../types/resolution'
+
 interface Props {
   title?: string
   input: string
   category: string
   onInputChange: React.Dispatch<React.SetStateAction<string>>
-  onPickerChange: (value: string) => void
+  onPickerChange: (value: Category) => void
   onSubmit: (e: React.FormEvent) => void
 }
 
@@ -54,7 +56,7 @@ function Header({
                 : 'bg-slate-100 hover:bg-slate-200 text-black'
             } rounded-md p-2 font-medium cursor-pointer`}
             type="button"
-            onClick={() => onPickerChange('finance')}
+            onClick={() => onPickerChange('financial')}
           >
             💰 Finance
           </button>
@@ -65,7 +67,7 @@ function Header({
                 : 'bg-slate-100 hover:bg-slate-200 text-black'
             } rounded-md p-2 font-medium cursor-pointer`}
             type="button"
-            onClick={() => onPickerChange('travel')}
+            onClick={() => onPickerChange('personal')}
           >
             ✈️ Travel
           </button>

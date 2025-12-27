@@ -1,15 +1,28 @@
 import { useState } from 'react'
 import Header from './components/Header'
 import ProgressBar from './components/ProgressBar'
-import CustomRadio from './components/CustomRadio'
+import List from './components/List'
+import type { Category, Resolution } from './types/resolution'
+
+const data: Resolution[] = [
+  {
+    id: '1',
+    title: 'Buy a brand new car',
+    category: 'personal',
+    completed: false,
+    createdAt: new Date(),
+  },
+]
 
 function App() {
   const [input, setInput] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
+  const [category, setCategory] = useState<Category>('personal')
 
-  const handleChangePicker = (value: string = 'other') => {
+  const [resolutions, setResolutions] = useState<Resolution[]>(data)
+
+  const handleChangePicker = (value: Category) => {
     if (category) {
-      setCategory('')
+      setCategory('personal')
       return
     }
 
@@ -19,9 +32,19 @@ function App() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (input === '') return
+    if (input === '' || !category) return
 
-    console.log({ input, category })
+    const newResolution: Resolution = {
+      id: '3',
+      title: input,
+      category,
+      completed: false,
+      createdAt: new Date(),
+    }
+
+    setResolutions([...resolutions, newResolution])
+
+    setInput('')
   }
 
   return (
@@ -35,20 +58,7 @@ function App() {
       />
 
       <main className="flex flex-col gap-6 max-w-4xl mx-auto">
-        {/* List */}
-        <div className="flex flex-col gap-4 px-4">
-          <div className="flex gap-4 bg-white border border-slate-100 p-4 rounded shadow">
-            {/* Custom Radio Input */}
-            <CustomRadio />
-
-            <div className="flex flex-col">
-              <h2 className="text-md">💰 Finance</h2>
-              <p className="text-lg font-medium">Earn more money</p>
-            </div>
-
-            <button className="ml-auto">Del</button>
-          </div>
-        </div>
+        <List resolutions={resolutions} />
 
         <ProgressBar progress={55} />
       </main>
