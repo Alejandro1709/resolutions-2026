@@ -1,45 +1,41 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import Header from './components/Header'
 import ProgressBar from './components/ProgressBar'
 import List from './components/List'
+import {
+  getResolutionsInitialState,
+  resolutionsReducer,
+} from './reducers/resolutionsReducer'
 import type { Category, Resolution } from './types/resolution'
 
 function App() {
   const [input, setInput] = useState<string>('')
   const [category, setCategory] = useState<Category>('other')
 
-  const [resolutions, setResolutions] = useState<Resolution[]>(() => {
-    const stored = localStorage.getItem('resolutions')
-    return stored ? JSON.parse(stored) : []
-  })
+  const [state, dispatch] = useReducer(
+    resolutionsReducer,
+    getResolutionsInitialState()
+  )
 
-  const completedResolutions = resolutions.filter((r) => r.completed).length
+  const completedResolutions = state.resolutions.filter(
+    (r) => r.completed
+  ).length
 
-  const percentage = (completedResolutions / resolutions.length) * 100
+  const percentage = (completedResolutions / state.resolutions.length) * 100
 
   useEffect(() => {
-    localStorage.setItem('resolutions', JSON.stringify(resolutions))
-  }, [resolutions])
+    localStorage.setItem('resolutionState', JSON.stringify(state))
+  }, [state])
 
   const handleCompleteResolution = (id: Resolution['id']) => {
-    const updatedResolutions = resolutions.map((resolution) =>
-      resolution.id === id
-        ? { ...resolution, completed: !resolution.completed }
-        : resolution
-    )
-
-    setResolutions(updatedResolutions)
+    dispatch({ type: 'TOGGLE_RESOLUTION', payload: id })
 
     toast.success('Resolution Toggled!')
   }
 
   const handleRemoveResolution = (id: Resolution['id']) => {
-    const updatedResolutions = resolutions.filter(
-      (resolution) => resolution.id !== id
-    )
-
-    setResolutions(updatedResolutions)
+    dispatch({ type: 'DELETE_RESOLUTION', payload: id })
 
     toast.success('Resolution Removed!')
   }
@@ -52,15 +48,7 @@ function App() {
       return
     }
 
-    const newResolution: Resolution = {
-      id: crypto.randomUUID(),
-      title: input,
-      category,
-      completed: false,
-      createdAt: new Date(),
-    }
-
-    setResolutions([...resolutions, newResolution])
+    dispatch({ type: 'ADD_RESOLUTION', payload: { title: input, category } })
 
     toast.success('Resolution Added!')
 
@@ -79,7 +67,7 @@ function App() {
 
       <main className="flex flex-col gap-6 max-w-4xl mx-auto">
         <List
-          resolutions={resolutions}
+          resolutions={state.resolutions}
           onCompleteResolution={handleCompleteResolution}
           onRemoveResolution={handleRemoveResolution}
         />
