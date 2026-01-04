@@ -1,32 +1,16 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import Header from './components/Header'
 import ProgressBar from './components/ProgressBar'
 import List from './components/List'
-import {
-  getResolutionsInitialState,
-  resolutionsReducer,
-} from './reducers/resolutionsReducer'
 import type { Category, Resolution } from './types/resolution'
+import useResolutions from './hooks/useResolutions'
 
 function App() {
   const [input, setInput] = useState<string>('')
   const [category, setCategory] = useState<Category>('other')
 
-  const [state, dispatch] = useReducer(
-    resolutionsReducer,
-    getResolutionsInitialState()
-  )
-
-  const completedResolutions = state.resolutions.filter(
-    (r) => r.completed
-  ).length
-
-  const percentage = (completedResolutions / state.resolutions.length) * 100
-
-  useEffect(() => {
-    localStorage.setItem('resolutionState', JSON.stringify(state))
-  }, [state])
+  const { state, percentage, completedResolutions, dispatch } = useResolutions()
 
   const handleCompleteResolution = (id: Resolution['id']) => {
     dispatch({ type: 'TOGGLE_RESOLUTION', payload: id })
@@ -73,7 +57,13 @@ function App() {
           onRemoveResolution={handleRemoveResolution}
         />
 
-        {completedResolutions > 0 && <ProgressBar progress={percentage} />}
+        <div className="flex flex-col gap-2">
+          <ProgressBar progress={percentage} />
+          <p className="text-center">
+            {completedResolutions} resolutions completed out of{' '}
+            {state.resolutions.length}
+          </p>
+        </div>
       </main>
       <ToastContainer position="top-right" />
     </div>
