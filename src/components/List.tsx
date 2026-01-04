@@ -14,14 +14,16 @@ function List({
 }: Props) {
   return (
     <div className="flex flex-col gap-4 px-4">
-      {resolutions.map((resolution) => (
-        <ListItem
-          key={resolution.id}
-          resolution={resolution}
-          onCompleteResolution={onCompleteResolution}
-          onRemoveResolution={onRemoveResolution}
-        />
-      ))}
+      {resolutions.length > 0
+        ? resolutions.map((resolution) => (
+            <ListItem
+              key={resolution.id}
+              resolution={resolution}
+              onCompleteResolution={onCompleteResolution}
+              onRemoveResolution={onRemoveResolution}
+            />
+          ))
+        : null}
     </div>
   )
 }
