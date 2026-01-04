@@ -15,7 +15,7 @@ function ListItem({
   const category = categoryConfig[resolution.category]
 
   return (
-    <div className="flex gap-4 bg-white border border-slate-100 p-4 rounded shadow transform transition-all">
+    <div className="flex gap-4 bg-white border border-slate-100 p-4 rounded shadow hover:scale-95 transform transition-all">
       <button
         className={`flex justify-center items-center h-8 w-8 ${
           resolution.completed

@@ -53,6 +53,7 @@ function App() {
     toast.success('Resolution Added!')
 
     setInput('')
+    setCategory('other')
   }
 
   return (
@@ -65,7 +66,7 @@ function App() {
         onSubmit={handleSubmit}
       />
 
-      <main className="flex flex-col gap-6 max-w-4xl mx-auto">
+      <main className="flex flex-col gap-6 max-w-4xl mx-auto mb-6">
         <List
           resolutions={state.resolutions}
           onCompleteResolution={handleCompleteResolution}
